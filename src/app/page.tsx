@@ -1,4 +1,4 @@
-import { IpBar } from "./components/IpBar";
+import { IpBar } from "../components/IpBar";
 
 export default function Home() {
   return (

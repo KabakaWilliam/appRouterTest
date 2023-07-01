@@ -4,7 +4,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const fetchIP = async () => {
-  const { data } = await axios.get(`http://localhost:3000/api/ip`);
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_PROD_URL}/api/ip`
+  );
   const FINAL_IP = data.ipAddress as string;
   console.log(`final IP:`, FINAL_IP);
   return FINAL_IP;
