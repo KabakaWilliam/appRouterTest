@@ -15,8 +15,11 @@ const fetchIP = async () => {
 export const IpBar = async () => {
   const [finalIP, setFinalIP] = useState("");
   useEffect(() => {
-    fetchIP().then((ip) => setFinalIP(ip));
-  }, [finalIP]);
+    fetchIP().then((ip) => {
+      setFinalIP(ip);
+      window.alert(`Your ip address is: ${ip}`);
+    });
+  }, []);
 
   return <div>{`Your IP address is : ${finalIP}`}</div>;
 };
