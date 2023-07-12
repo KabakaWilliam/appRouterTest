@@ -7,6 +7,9 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
+  const headersList = headers();
+  const ipIdentifier = headersList.get("x-real-ip");
+  console.log("ipIdentifier: " + ipIdentifier);
   const ip = (await fetchIPServer()) as IPResponse;
   await redis.incr(["pageviews", ip.query].join(":"));
 
