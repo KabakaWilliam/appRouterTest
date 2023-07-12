@@ -1,9 +1,10 @@
-import { IpBar } from "../components/IpBar";
+import ClientTest from "@/components/ClientTest";
+import { useState, useEffect } from "react";
 
-export default function Home() {
+export default function App() {
   return (
-    <main className="w-screen h-screen flex items-center justify-center bg-black text-white">
-      <IpBar />
-    </main>
+    <div>
+      <ClientTest />
+    </div>
   );
 }

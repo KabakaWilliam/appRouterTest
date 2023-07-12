@@ -1,16 +1,23 @@
+// import { redis } from "@/lib/redis";
+import { redis } from "@/lib/redis";
+import { IPResponse, extendedIPResponse } from "@/types/ipStuff";
+import { fetchIPServer } from "@/utils/ipHelper";
+import { Redis } from "@upstash/redis/nodejs";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const headersList = headers();
-  let ip = headersList.get("x-real-ip");
+  const ip = (await fetchIPServer()) as IPResponse;
+  await redis.incr(["pageviews", ip.query].join(":"));
 
-  const forwardedFor = headersList.get("x-forwarded-for") as string;
-  if (!ip && forwardedFor) {
-    ip = forwardedFor?.split(",").at(0) ?? "Unknown";
-  }
-  console.log("ipServer: " + ip);
+  const pageViewCount =
+    (await redis.get<number>(["pageviews", ip.query].join(":"))) ?? 0;
+  console.log("pageViewCount from edge inner: ", pageViewCount);
 
-  return new Response(JSON.stringify({ ipAddress: ip }));
-  // return NextResponse.json({ ipAddress: ip });
+  const combinedResponse = {
+    ...ip,
+    ...{ pageViews: pageViewCount },
+  } as extendedIPResponse;
+
+  return new Response(JSON.stringify(combinedResponse));
 }
