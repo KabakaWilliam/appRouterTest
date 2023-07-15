@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 
 export const runtime = "nodejs";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log("If this is printed, the signature has already been verified");
   const headerList = headers();
   const sign = headerList.get("upstash-signature") || "";
@@ -65,5 +65,3 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400);
   }
 }
-
-verifySignature(handler);

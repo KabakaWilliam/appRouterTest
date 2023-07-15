@@ -10,9 +10,10 @@ export async function POST(req: Request) {
   }
   const headerList = headers();
   const host = headerList.get("host") || "";
+  console.log("host: " + host);
 
   const qstashRes = await QstashClient.publishJSON({
-    url: `https://app-router-test-omega.vercel.app/api/sendMail`,
+    url: `https://${host}/api/sendMail`,
     body: req.body,
   });
   return new Response("OK", { status: 200 });
