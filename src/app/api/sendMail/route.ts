@@ -29,4 +29,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default verifySignature(handler);
+verifySignature(handler);
